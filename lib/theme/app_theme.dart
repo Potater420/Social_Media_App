@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'app_colors.dart';
 
 class AppTheme {
-  static final darkTheme = ThemeData(
+  static final ThemeData darkTheme = ThemeData(
     useMaterial3: true,
     brightness: Brightness.dark,
     fontFamily: 'PlusJakartaSans',
@@ -18,30 +18,49 @@ class AppTheme {
 
     appBarTheme: const AppBarTheme(
       backgroundColor: Colors.transparent,
-      elevation: 0,
       foregroundColor: AppColors.textPrimary,
+      elevation: 0,
       centerTitle: true,
     ),
 
     textTheme: const TextTheme(
       headlineLarge: TextStyle(
-        fontSize: 34,
+        fontSize: 38,
         fontWeight: FontWeight.bold,
         color: AppColors.textPrimary,
       ),
+
+      headlineMedium: TextStyle(
+        fontSize: 28,
+        fontWeight: FontWeight.w700,
+        color: AppColors.textPrimary,
+      ),
+
       bodyLarge: TextStyle(
         fontSize: 16,
         color: AppColors.textPrimary,
       ),
+
       bodyMedium: TextStyle(
         fontSize: 14,
         color: AppColors.textSecondary,
+      ),
+
+      labelLarge: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w600,
+        color: Colors.white,
       ),
     ),
 
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: AppColors.surface,
+
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: 18,
+        vertical: 20,
+      ),
 
       hintStyle: const TextStyle(
         color: AppColors.textHint,
@@ -51,24 +70,35 @@ class AppTheme {
         color: AppColors.textSecondary,
       ),
 
-      prefixIconColor: AppColors.accent,
-      suffixIconColor: AppColors.accent,
-
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(14),
-      ),
+      prefixIconColor: AppColors.primary,
+      suffixIconColor: AppColors.primary,
 
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(18),
         borderSide: const BorderSide(
           color: AppColors.border,
         ),
       ),
 
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(18),
         borderSide: const BorderSide(
           color: AppColors.primary,
+          width: 2,
+        ),
+      ),
+
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(18),
+        borderSide: const BorderSide(
+          color: AppColors.error,
+        ),
+      ),
+
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(18),
+        borderSide: const BorderSide(
+          color: AppColors.error,
           width: 2,
         ),
       ),
@@ -78,10 +108,16 @@ class AppTheme {
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.primary,
         foregroundColor: Colors.white,
-        minimumSize: const Size(double.infinity, 56),
         elevation: 0,
+        minimumSize: const Size(double.infinity, 58),
+
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(18),
+        ),
+
+        textStyle: const TextStyle(
+          fontSize: 17,
+          fontWeight: FontWeight.w600,
         ),
       ),
     ),
@@ -89,16 +125,22 @@ class AppTheme {
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
         foregroundColor: AppColors.accent,
+        textStyle: const TextStyle(
+          fontWeight: FontWeight.w600,
+        ),
       ),
     ),
 
     checkboxTheme: CheckboxThemeData(
       fillColor: WidgetStateProperty.resolveWith((states) {
-        return states.contains(WidgetState.selected)
-            ? AppColors.primary
-            : Colors.transparent;
+        if (states.contains(WidgetState.selected)) {
+          return AppColors.primary;
+        }
+        return Colors.transparent;
       }),
-      side: const BorderSide(color: AppColors.border),
+      side: const BorderSide(
+        color: AppColors.border,
+      ),
     ),
 
     dividerTheme: const DividerThemeData(

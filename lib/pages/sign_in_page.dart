@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:sprints_firstapp/widgets/custom_button.dart';
 
 class SignInPage extends StatefulWidget {
@@ -43,11 +44,12 @@ class _SignInPageState extends State<SignInPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
+                   const Text(
                     'Welcome Back',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 44,
+                      color: Colors.white,
                     ),
                   ),
                   const SizedBox(height: 15),

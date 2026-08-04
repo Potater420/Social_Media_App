@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sprints_firstapp/pages/sign_in_page.dart';
+import 'package:sprints_firstapp/theme/app_colors.dart';
 import 'package:sprints_firstapp/widgets/custom_button.dart';
 
 class WelcomePage extends StatelessWidget {
@@ -33,7 +34,7 @@ class WelcomePage extends StatelessWidget {
                   child: Icon(
                     Icons.people_alt_rounded,
                     size: 55,
-                    color: Color.fromARGB(255, 9, 88, 152),
+                    color: AppColors.primary
                   ),
                 ),
 
