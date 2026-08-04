@@ -66,7 +66,7 @@ class WelcomePage extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: CustomButton(
-                    text: "Sign In",
+                    text: "Sign in",
                     onPressed: () {
                       Navigator.push(
                         context,
