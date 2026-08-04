@@ -91,6 +91,14 @@ class _SignInPageState extends State<SignInPage> {
                         ),
                       ),
                     ),
+                    validator: (value) {
+                      if (value == null || (value.isEmpty)) {
+                        return 'Please Enter your Password!';
+                      } else if (value.length < 8) {
+                        return 'Enter a Strong Password!';
+                      }
+                      return null;
+                    },
                   ),
                   const SizedBox(height: 10),
                   Row(
@@ -122,7 +130,7 @@ class _SignInPageState extends State<SignInPage> {
                   const SizedBox(height: 15),
                   CustomButton(
                     onPressed: () {
-                      if(_formKey.currentState!.validate()){
+                      if (_formKey.currentState!.validate()) {
                         //login not yet
                       }
                     },
