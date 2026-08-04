@@ -43,7 +43,7 @@ class _SignInPageState extends State<SignInPage> {
         body: SizedBox(
           width: double.infinity,
           child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(30, 100, 30, 30),
+            padding: const EdgeInsets.fromLTRB(30, 150, 30, 30),
             child: Form(
               key: _formKey,
               child: Column(

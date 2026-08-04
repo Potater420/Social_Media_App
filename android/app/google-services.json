@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "217363131757",
+    "project_id": "social-media-app-43701",
+    "storage_bucket": "social-media-app-43701.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:217363131757:android:84c3eb17cec86295f43e64",
+        "android_client_info": {
+          "package_name": "com.example.sprints_firstapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZcnCbExQJCVAzKc2rbuPUwpvGImph-nQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
