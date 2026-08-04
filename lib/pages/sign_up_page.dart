@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:sprints_firstapp/pages/sign_up_page.dart';
+import 'package:sprints_firstapp/pages/sign_in_page.dart';
 
 import 'package:sprints_firstapp/widgets/custom_button.dart';
 
-class SignInPage extends StatefulWidget {
-  const SignInPage({super.key});
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
 
   @override
-  State<SignInPage> createState() => _SignInPageState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _SignInPageState extends State<SignInPage> {
-  bool rememberMe = false;
+class _SignUpPageState extends State<SignUpPage> {
+  bool _rememberMe = false;
 
   final _formKey = GlobalKey<FormState>();
   final RegExp emailRegExp = RegExp(r'^[\w.-]+@[\w.-]+\.\w+$');
 
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _nameController = TextEditingController();
 
   bool _obscurePassword = true;
 
@@ -25,6 +26,7 @@ class _SignInPageState extends State<SignInPage> {
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    _nameController.dispose();
     super.dispose();
   }
 
@@ -47,15 +49,29 @@ class _SignInPageState extends State<SignInPage> {
             child: Form(
               key: _formKey,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    'Welcome Back',
+                    'Create Account',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 44,
                       color: Colors.white,
                     ),
+                  ),
+                  const SizedBox(height: 15),
+                  TextFormField(
+                    controller: _nameController,
+                    decoration: const InputDecoration(
+                      hintText: 'Input Name Here',
+                      labelText: 'Name',
+                      prefixIcon: Icon(Icons.person),
+                    ),
+                    validator: (value) {
+                      if (value == null || (value.isEmpty)) {
+                        return 'Please Enter your Name';
+                      }
+                      return null;
+                    },
                   ),
                   const SizedBox(height: 15),
                   TextFormField(
@@ -106,26 +122,19 @@ class _SignInPageState extends State<SignInPage> {
                   ),
                   const SizedBox(height: 10),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Checkbox(
-                        value: rememberMe,
+                        value: _rememberMe,
                         onChanged: (value) {
                           setState(() {
-                            rememberMe = value!;
+                            _rememberMe = value!;
                           });
                         },
                       ),
-                      const Text("Remember me", style: TextStyle(fontSize: 12)),
-                      const Spacer(),
-                      TextButton(
-                        onPressed: () {},
-                        child: const Text(
-                          'Forgot password?',
-                          style: TextStyle(
-                            fontSize: 12,
-                          ),
-                        ),
+                      const Text(
+                        "I have read and agree to the terms and conditions",
+                        style: TextStyle(fontSize: 12),
                       ),
                     ],
                   ),
@@ -133,18 +142,29 @@ class _SignInPageState extends State<SignInPage> {
                   CustomButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
+                        if (!_rememberMe) {
+                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                "You must agree to the terms and conditions to continue.",
+                              ),
+                            ),
+                          );
+                          return;
+                        }
                         //login not yet
                       }
                     },
-                    text: 'Sign in',
+                    text: 'Sign Up',
                   ),
-                  const SizedBox(height: 24),
+                   const SizedBox(height: 24),
 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
-                        "Don't have an account?",
+                        "Already have an account?",
                         style: TextStyle(
                           color: Colors.white70,
                           fontSize: 15,
@@ -155,11 +175,11 @@ class _SignInPageState extends State<SignInPage> {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              builder: (_) => const SignUpPage(),
+                              builder: (_) => const SignInPage(),
                             ),
                           );
                         },
-                        child: const Text("Sign Up"),
+                        child: const Text("Sign In"),
                       ),
                     ],
                   ),

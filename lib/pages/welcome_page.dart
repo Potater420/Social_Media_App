@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sprints_firstapp/pages/sign_in_page.dart';
+import 'package:sprints_firstapp/pages/sign_up_page.dart';
 import 'package:sprints_firstapp/theme/app_colors.dart';
 import 'package:sprints_firstapp/widgets/custom_button.dart';
 
@@ -26,7 +27,9 @@ class WelcomePage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 28),
             child: Column(
               children: [
-                const Spacer(flex: 3,),
+                const Spacer(
+                  flex: 3,
+                ),
 
                 const CircleAvatar(
                   radius: 55,
@@ -34,7 +37,7 @@ class WelcomePage extends StatelessWidget {
                   child: Icon(
                     Icons.people_alt_rounded,
                     size: 55,
-                    color: AppColors.primary
+                    color: AppColors.primary,
                   ),
                 ),
 
@@ -111,7 +114,14 @@ class WelcomePage extends StatelessWidget {
                 const SizedBox(height: 14),
 
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const SignUpPage(),
+                      ),
+                    );
+                  },
                   child: const Text(
                     "Create Account",
                     style: TextStyle(
@@ -122,7 +132,9 @@ class WelcomePage extends StatelessWidget {
                   ),
                 ),
 
-                const Spacer(flex: 3,)
+                const Spacer(
+                  flex: 3,
+                ),
               ],
             ),
           ),
