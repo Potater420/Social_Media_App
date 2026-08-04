@@ -46,9 +46,8 @@ class _SignInPageState extends State<SignInPage> {
                   const Text(
                     'Welcome Back',
                     style: TextStyle(
-                      fontSize: 44,
                       fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 9, 88, 152),
+                      fontSize: 44,
                     ),
                   ),
                   const SizedBox(height: 15),
@@ -57,7 +56,6 @@ class _SignInPageState extends State<SignInPage> {
                     decoration: const InputDecoration(
                       hintText: 'Input Email Here',
                       labelText: 'Email',
-                      border: OutlineInputBorder(),
                       prefixIcon: Icon(Icons.email),
                     ),
                     validator: (value) {
@@ -76,7 +74,6 @@ class _SignInPageState extends State<SignInPage> {
                     decoration: InputDecoration(
                       hint: const Text('Input Password here'),
                       label: const Text('Password'),
-                      border: const OutlineInputBorder(),
                       prefixIcon: const Icon(Icons.lock),
                       suffixIcon: IconButton(
                         onPressed: () {
@@ -105,7 +102,7 @@ class _SignInPageState extends State<SignInPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Checkbox(
-                        activeColor: const Color.fromARGB(255, 9, 88, 152),
+                      
                         value: rememberMe,
                         onChanged: (value) {
                           setState(() {
@@ -121,7 +118,6 @@ class _SignInPageState extends State<SignInPage> {
                           'Forgot password?',
                           style: TextStyle(
                             fontSize: 12,
-                            color: Color.fromARGB(255, 9, 88, 152),
                           ),
                         ),
                       ),
