@@ -39,6 +39,7 @@ dependencies:
   flutter_bloc: ^9.1.1
   bloc: ^9.2.1
   lottie: ^3.5.1
+  cloud_firestore: ^6.8.0
 
 dev_dependencies:
   flutter_test:

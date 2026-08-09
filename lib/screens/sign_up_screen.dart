@@ -195,6 +195,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           context.read<AuthCubit>().createUserCubit(
                             email: _emailController.text.trim(),
                             password: _passwordController.text,
+                            username: _nameController.text
                           );
                         }
                       },

@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AuthServices {
   static final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -8,12 +9,22 @@ class AuthServices {
   static Future<String> createUser({
     required String email,
     required String password,
+    required String username,
   }) async {
     try {
-      await _firebaseAuth.createUserWithEmailAndPassword(
+      final credential = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+
+      final uid = credential.user!.uid;
+
+      await FirebaseFirestore.instance.collection('users').doc(uid).set({
+        'username': username,
+        'email': email,
+        'profileImage': '',
+      });
+
       return 'success';
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -24,6 +35,7 @@ class AuthServices {
         return 'Unexpected error';
       }
     } catch (e) {
+      print('FIRESTORE ERROR: $e');
       return 'Oops! there was an error creating the account!!!';
     }
   }
@@ -81,7 +93,8 @@ class AuthServices {
       return 'unexpected error';
     }
   }
-//----------------------------------------------Reset Password------------------------------------------------------
+
+  //----------------------------------------------Reset Password------------------------------------------------------
   static Future<String> resetPassword({
     required String email,
   }) async {

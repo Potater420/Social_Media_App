@@ -8,23 +8,26 @@ class AuthCubit extends Cubit<AuthState> {
 
   //------------create user------------------
 
-  Future<void> createUserCubit({
-    required String email,
-    required String password,
-  }) async {
-    emit(AuthLoading());
-    final state = await AuthServices.createUser(
-      email: email,
-      password: password,
-    );
+  Future createUserCubit({
+  required String email,
+  required String password,
+  required String username,
+}) async {
+  emit(AuthLoading());
 
-    if (state == 'success') {
-      emit(AuthSuccess());
-    } else {
-      errorMessage = state;
-      emit(AuthFailed());
-    }
+  final state = await AuthServices.createUser(
+    email: email,
+    password: password,
+    username: username,
+  );
+
+  if (state == 'success') {
+    emit(AuthSuccess());
+  } else {
+    errorMessage = state;
+    emit(AuthFailed());
   }
+}
 
   //------------login user------------------
 
