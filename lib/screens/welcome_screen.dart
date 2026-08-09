@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sprints_firstapp/pages/sign_in_page.dart';
-import 'package:sprints_firstapp/pages/sign_up_page.dart';
+import 'package:sprints_firstapp/screens/log_in_screen.dart';
+import 'package:sprints_firstapp/screens/sign_up_screen.dart';
 import 'package:sprints_firstapp/theme/app_colors.dart';
 import 'package:sprints_firstapp/widgets/custom_button.dart';
 

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sprints_firstapp/pages/welcome_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sprints_firstapp/cubit/auth_cubit/auth_cubit.dart';
+import 'package:sprints_firstapp/screens/welcome_screen.dart';
 import 'package:sprints_firstapp/theme/app_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -19,11 +21,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: AppTheme.darkTheme,
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      home: const WelcomePage(),
+    return BlocProvider(
+      create: (context) => AuthCubit(),
+      child: MaterialApp(
+        theme: AppTheme.darkTheme,
+        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        home: const WelcomePage(),
+      ),
     );
   }
 }
