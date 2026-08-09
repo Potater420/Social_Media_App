@@ -74,4 +74,24 @@ class AuthCubit extends Cubit<AuthState> {
       emit(AuthFailed());
     }
   }
+
+  //------------reset password------------------
+
+  Future resetPasswordCubit({
+    required String email,
+  }) async {
+    emit(AuthLoading());
+
+    final state = await AuthServices.resetPassword(
+      email: email,
+    );
+
+    if (state == 'success') {
+      errorMessage = '';
+      emit(PasswordResetSuccess());
+    } else {
+      errorMessage = state;
+      emit(AuthFailed());
+    }
+  }
 }

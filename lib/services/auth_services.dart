@@ -38,12 +38,15 @@ class AuthServices {
         email: email,
         password: password,
       );
+
       return 'success';
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         return 'No user found for that email.';
       } else if (e.code == 'wrong-password') {
-        return 'Wrong password provided for that user.';
+        return 'Wrong password provided.';
+      } else if (e.code == 'invalid-credential') {
+        return 'Wrong password provided.';
       } else {
         return 'Account does not exist!!!';
       }
@@ -76,6 +79,28 @@ class AuthServices {
       }
     } catch (e) {
       return 'unexpected error';
+    }
+  }
+//----------------------------------------------Reset Password------------------------------------------------------
+  static Future<String> resetPassword({
+    required String email,
+  }) async {
+    try {
+      await _firebaseAuth.sendPasswordResetEmail(
+        email: email,
+      );
+
+      return 'success';
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        return 'No user found for that email.';
+      } else if (e.code == 'invalid-email') {
+        return 'Please enter a valid email address.';
+      } else {
+        return 'Unable to send password reset email.';
+      }
+    } catch (e) {
+      return 'Unexpected error';
     }
   }
 }

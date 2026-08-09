@@ -8,5 +8,5 @@ class AuthSuccess extends AuthState{}
 
 class AuthFailed extends AuthState{}
 
-
+class PasswordResetSuccess extends AuthState {}
 

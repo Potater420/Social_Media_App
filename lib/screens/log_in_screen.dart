@@ -46,10 +46,23 @@ class _SignInPageState extends State<SignInPage> {
         }
 
         if (state is AuthSuccess) {
-          Navigator.pushReplacement(
+          Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
               builder: (_) => const HomeScreen(),
+            ),
+            (route) => false,
+          );
+        }
+
+        if (state is PasswordResetSuccess) {
+          Navigator.pop(context);
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text(
+                'Password reset email sent! Check your inbox.',
+              ),
             ),
           );
         }
@@ -158,7 +171,35 @@ class _SignInPageState extends State<SignInPage> {
                         ),
                         const Spacer(),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            final email = _emailController.text.trim();
+
+                            if (email.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    'Please enter your email first.',
+                                  ),
+                                ),
+                              );
+                              return;
+                            }
+
+                            if (!emailRegExp.hasMatch(email)) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    'Please enter a valid email address.',
+                                  ),
+                                ),
+                              );
+                              return;
+                            }
+
+                            context.read<AuthCubit>().resetPasswordCubit(
+                              email: email,
+                            );
+                          },
                           child: const Text(
                             'Forgot password?',
                             style: TextStyle(

@@ -39,11 +39,12 @@ class _SignUpPageState extends State<SignUpPage> {
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AuthLoading) {
-          Navigator.push(
+          Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-              builder: (_) => const LoadingScreen(),
+              builder: (_) => const HomeScreen(),
             ),
+            (route) => false,
           );
         }
 
