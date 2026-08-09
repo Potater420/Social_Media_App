@@ -58,7 +58,7 @@ class AuthServices {
       } else if (e.code == 'wrong-password') {
         return 'Wrong password provided.';
       } else if (e.code == 'invalid-credential') {
-        return 'Wrong password provided.';
+        return 'Invalid email or password.';
       } else {
         return 'Account does not exist!!!';
       }
