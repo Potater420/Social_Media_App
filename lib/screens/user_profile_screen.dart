@@ -34,7 +34,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
       final imageUrl = await ImageServices.uploadImage(
         image: selectedImage,
-        apiKey: 'YOUR_API_KEY',
+        apiKey: '99fecb79a682139d934ae76e00582ea5',
       );
 
       final String uid = FirebaseAuth.instance.currentUser!.uid;

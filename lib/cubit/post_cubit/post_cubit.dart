@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:sprints_firstapp/cubit/post_cubit/post_state.dart';
 import 'package:sprints_firstapp/services/post_services.dart';
+import 'package:sprints_firstapp/services/image_services.dart';
 
 class PostCubit extends Cubit<PostState> {
   PostCubit() : super(PostInitial());
@@ -12,10 +15,28 @@ class PostCubit extends Cubit<PostState> {
   Future createPostCubit({
     required String title,
     required String description,
-    required String imageUrl,
+    required File? image,
   }) async {
     emit(PostLoading());
 
+    String imageUrl = '';
+
+    // Upload image if one was selected
+    if (image != null) {
+      imageUrl = await ImageServices.uploadImage(
+        image: image,
+        apiKey: '99fecb79a682139d934ae76e00582ea5',
+      );
+
+      if (imageUrl == 'Upload failed' ||
+          imageUrl == 'Unexpected error') {
+        errorMessage = imageUrl;
+        emit(PostFailed());
+        return;
+      }
+    }
+
+    // Create post in Firestore
     final state = await PostServices.createPost(
       title: title,
       description: description,

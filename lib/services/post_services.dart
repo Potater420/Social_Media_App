@@ -1,3 +1,4 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sprints_firstapp/models/post_model.dart';
@@ -43,7 +44,12 @@ class PostServices {
         'description': description,
         'imageUrl': imageUrl,
         'createdAt': Timestamp.now(),
+
+        // Likes
         'likesCount': 0,
+        'likedBy': [],
+
+        // Comments
         'commentsCount': 0,
       });
 
@@ -70,5 +76,52 @@ class PostServices {
                 .toList();
           },
         );
+  }
+
+  // ---------------- Like / Unlike Post ----------------
+
+  static Future<String> likePost(String postId) async {
+    try {
+      final User? currentUser = _firebaseAuth.currentUser;
+
+      if (currentUser == null) {
+        return 'No user is currently logged in.';
+      }
+
+      final uid = currentUser.uid;
+
+      final postRef =
+          _firestore.collection('posts').doc(postId);
+
+      final postSnapshot = await postRef.get();
+
+      if (!postSnapshot.exists) {
+        return 'Post not found.';
+      }
+
+      final data = postSnapshot.data()!;
+
+      final List likedBy =
+          List.from(data['likedBy'] ?? []);
+
+      if (likedBy.contains(uid)) {
+        // Unlike
+        await postRef.update({
+          'likedBy': FieldValue.arrayRemove([uid]),
+          'likesCount': FieldValue.increment(-1),
+        });
+      } else {
+        // Like
+        await postRef.update({
+          'likedBy': FieldValue.arrayUnion([uid]),
+          'likesCount': FieldValue.increment(1),
+        });
+      }
+
+      return 'success';
+    } catch (e) {
+      print('LIKE POST ERROR: $e');
+      return 'Unexpected error';
+    }
   }
 }

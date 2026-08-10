@@ -9,6 +9,7 @@ class Post {
   final String imageUrl;
   final Timestamp createdAt;
   final int likesCount;
+  final List<String> likedBy;
   final int commentsCount;
 
   Post({
@@ -20,6 +21,7 @@ class Post {
     required this.imageUrl,
     required this.createdAt,
     required this.likesCount,
+    required this.likedBy,
     required this.commentsCount,
   });
 
@@ -37,6 +39,7 @@ class Post {
       imageUrl: data['imageUrl'],
       createdAt: data['createdAt'],
       likesCount: data['likesCount'],
+      likedBy: List<String>.from(data['likedBy'] ?? []),
       commentsCount: data['commentsCount'],
     );
   }
