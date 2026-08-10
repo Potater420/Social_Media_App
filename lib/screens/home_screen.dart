@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sprints_firstapp/widgets/comments_bottom_sheet.dart';
 import 'package:sprints_firstapp/widgets/liked_by_bottom_sheet.dart';
+import 'package:sprints_firstapp/screens/edit_post_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -68,6 +69,9 @@ class HomeScreen extends StatelessWidget {
             itemBuilder: (context, index) {
               final post = posts[index];
 
+              final isMyPost =
+                  post.userId == FirebaseAuth.instance.currentUser!.uid;
+
               return Card(
                 margin: const EdgeInsets.only(bottom: 16),
                 child: Padding(
@@ -75,6 +79,7 @@ class HomeScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      // ---------------- User Info ----------------
                       StreamBuilder<DocumentSnapshot>(
                         stream: FirebaseFirestore.instance
                             .collection('users')
@@ -92,13 +97,18 @@ class HomeScreen extends StatelessWidget {
 
                                 const SizedBox(width: 12),
 
-                                Text(
-                                  post.username,
-                                  style: const TextStyle(
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.bold,
+                                Expanded(
+                                  child: Text(
+                                    post.username,
+                                    style: const TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
+
+                                if (isMyPost) _postMenu(context, post),
                               ],
                             );
                           }
@@ -132,6 +142,8 @@ class HomeScreen extends StatelessWidget {
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
+
+                              if (isMyPost) _postMenu(context, post),
                             ],
                           );
                         },
@@ -139,6 +151,7 @@ class HomeScreen extends StatelessWidget {
 
                       const SizedBox(height: 18),
 
+                      // ---------------- Post Title ----------------
                       Text(
                         post.title,
                         style: const TextStyle(
@@ -149,6 +162,7 @@ class HomeScreen extends StatelessWidget {
 
                       const SizedBox(height: 8),
 
+                      // ---------------- Description ----------------
                       Text(
                         post.description,
                         style: const TextStyle(
@@ -156,6 +170,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
 
+                      // ---------------- Image ----------------
                       if (post.imageUrl.isNotEmpty) ...[
                         const SizedBox(height: 12),
 
@@ -171,6 +186,7 @@ class HomeScreen extends StatelessWidget {
 
                       const SizedBox(height: 12),
 
+                      // ---------------- Like / Comments ----------------
                       Row(
                         children: [
                           GestureDetector(
@@ -184,7 +200,9 @@ class HomeScreen extends StatelessWidget {
                             },
                             child: IconButton(
                               onPressed: () async {
-                                await PostServices.likePost(post.postId);
+                                await PostServices.likePost(
+                                  post.postId,
+                                );
                               },
                               icon: Icon(
                                 post.likedBy.contains(
@@ -236,6 +254,7 @@ class HomeScreen extends StatelessWidget {
         },
       ),
 
+      // ---------------- Create Post ----------------
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
@@ -247,6 +266,84 @@ class HomeScreen extends StatelessWidget {
         },
         child: const Icon(Icons.post_add),
       ),
+    );
+  }
+
+  // ---------------- Post Menu ----------------
+
+  Widget _postMenu(
+    BuildContext context,
+    Post post,
+  ) {
+    return PopupMenuButton<String>(
+      onSelected: (value) async {
+        if (value == 'delete') {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: const Text('Delete Post'),
+                content: const Text(
+                  'Are you sure you want to delete this post?',
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Cancel'),
+                  ),
+
+                  TextButton(
+                    onPressed: () async {
+                      Navigator.pop(context);
+
+                      await PostServices.deletePost(
+                        post.postId,
+                      );
+                    },
+                    child: const Text('Delete'),
+                  ),
+                ],
+              );
+            },
+          );
+        }
+
+        if (value == 'edit') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => EditPostScreen(
+                post: post,
+              ),
+            ),
+          );
+        }
+      },
+      itemBuilder: (context) => const [
+        PopupMenuItem(
+          value: 'edit',
+          child: Row(
+            children: [
+              Icon(Icons.edit),
+              SizedBox(width: 10),
+              Text('Edit Post'),
+            ],
+          ),
+        ),
+
+        PopupMenuItem(
+          value: 'delete',
+          child: Row(
+            children: [
+              Icon(Icons.delete),
+              SizedBox(width: 10),
+              Text('Delete Post'),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

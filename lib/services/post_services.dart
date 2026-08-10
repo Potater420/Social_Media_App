@@ -186,4 +186,34 @@ class PostServices {
           },
         );
   }
+  // ---------------- Delete Post ----------------
+
+  static Future<String> deletePost(String postId) async {
+    try {
+      await _firestore.collection('posts').doc(postId).delete();
+
+      return 'success';
+    } catch (e) {
+      print('DELETE POST ERROR: $e');
+      return 'Unexpected error';
+    }
+  }
+  // ---------------- Edit Post ----------------
+  static Future<String> updatePost({
+    required String postId,
+    required String title,
+    required String description,
+  }) async {
+    try {
+      await _firestore.collection('posts').doc(postId).update({
+        'title': title,
+        'description': description,
+      });
+
+      return 'success';
+    } catch (e) {
+      print('UPDATE POST ERROR: $e');
+      return 'Unexpected error';
+    }
+  }
 }
