@@ -6,6 +6,8 @@ import 'package:sprints_firstapp/cubit/auth_cubit/auth_cubit.dart';
 import 'package:sprints_firstapp/cubit/auth_cubit/auth_state.dart';
 import 'package:sprints_firstapp/screens/loading_screen.dart';
 import 'package:sprints_firstapp/screens/home_screen.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -25,6 +27,22 @@ class _SignUpPageState extends State<SignUpPage> {
   final _nameController = TextEditingController();
 
   bool _obscurePassword = true;
+
+  File? profileImage;
+
+  Future<void> pickProfileImage() async {
+    final ImagePicker picker = ImagePicker();
+
+    final XFile? image = await picker.pickImage(
+      source: ImageSource.gallery,
+    );
+
+    if (image != null) {
+      setState(() {
+        profileImage = File(image.path);
+      });
+    }
+  }
 
   @override
   void dispose() {
@@ -81,7 +99,7 @@ class _SignUpPageState extends State<SignUpPage> {
           body: SizedBox(
             width: double.infinity,
             child: SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(30, 100, 30, 30),
+              padding: const EdgeInsets.all(30),
               child: Form(
                 key: _formKey,
                 child: Column(
@@ -94,6 +112,34 @@ class _SignUpPageState extends State<SignUpPage> {
                         color: Colors.white,
                       ),
                     ),
+                    const SizedBox(height: 20),
+
+                    GestureDetector(
+                      onTap: pickProfileImage,
+                      child: CircleAvatar(
+                        radius: 60,
+                        backgroundImage: profileImage != null
+                            ? FileImage(profileImage!)
+                            : null,
+                        child: profileImage == null
+                            ? const Icon(
+                                Icons.person,
+                                size: 60,
+                              )
+                            : null,
+                      ),
+                    ),
+
+                    const SizedBox(height: 10),
+
+                    const Text(
+                      'Tap to choose a profile picture',
+                      style: TextStyle(
+                        color: Colors.white70,
+                        fontSize: 13,
+                      ),
+                    ),
+
                     const SizedBox(height: 15),
                     TextFormField(
                       controller: _nameController,
@@ -195,7 +241,8 @@ class _SignUpPageState extends State<SignUpPage> {
                           context.read<AuthCubit>().createUserCubit(
                             email: _emailController.text.trim(),
                             password: _passwordController.text,
-                            username: _nameController.text
+                            username: _nameController.text,
+                            profileImage: profileImage,
                           );
                         }
                       },

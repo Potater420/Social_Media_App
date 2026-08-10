@@ -6,10 +6,11 @@ class AuthServices {
 
   //------------------------------------------Creating a new user----------------------------------------------
 
-  static Future<String> createUser({
+  static Future createUser({
     required String email,
     required String password,
     required String username,
+    required String profileImage,
   }) async {
     try {
       final credential = await _firebaseAuth.createUserWithEmailAndPassword(
@@ -22,7 +23,7 @@ class AuthServices {
       await FirebaseFirestore.instance.collection('users').doc(uid).set({
         'username': username,
         'email': email,
-        'profileImage': '',
+        'profileImage': profileImage,
       });
 
       return 'success';
@@ -39,9 +40,10 @@ class AuthServices {
       return 'Oops! there was an error creating the account!!!';
     }
   }
+
   //----------------------------------------Login user-----------------------------------------------------------
 
-  static Future<String> loginUser({
+  static Future loginUser({
     required String email,
     required String password,
   }) async {
@@ -58,7 +60,7 @@ class AuthServices {
       } else if (e.code == 'wrong-password') {
         return 'Wrong password provided.';
       } else if (e.code == 'invalid-credential') {
-        return 'Invalid email or password.';
+        return 'Wrong password provided.';
       } else {
         return 'Account does not exist!!!';
       }
@@ -69,20 +71,21 @@ class AuthServices {
 
   //--------------------------------------------Logout user-------------------------------------------------------
 
-  static Future<String> logOutUser() async {
+  static Future logOutUser() async {
     try {
       await _firebaseAuth.signOut();
       return 'success';
     } catch (e) {
-      return (e.toString());
+      return e.toString();
     }
   }
 
   //----------------------------------------------Delete user------------------------------------------------------
 
-  static Future<String> deleteUser() async {
+  static Future deleteUser() async {
     try {
       final User? currentUser = _firebaseAuth.currentUser;
+
       if (currentUser != null) {
         await currentUser.delete();
         return 'success';
@@ -95,7 +98,8 @@ class AuthServices {
   }
 
   //----------------------------------------------Reset Password------------------------------------------------------
-  static Future<String> resetPassword({
+
+  static Future resetPassword({
     required String email,
   }) async {
     try {
