@@ -6,6 +6,7 @@ import 'package:sprints_firstapp/services/post_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sprints_firstapp/widgets/comments_bottom_sheet.dart';
+import 'package:sprints_firstapp/widgets/liked_by_bottom_sheet.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -172,22 +173,32 @@ class HomeScreen extends StatelessWidget {
 
                       Row(
                         children: [
-                          IconButton(
-                            onPressed: () async {
-                              await PostServices.likePost(post.postId);
+                          GestureDetector(
+                            onLongPress: () {
+                              showModalBottomSheet(
+                                context: context,
+                                builder: (_) => LikedByBottomSheet(
+                                  userIds: post.likedBy,
+                                ),
+                              );
                             },
-                            icon: Icon(
-                              post.likedBy.contains(
-                                    FirebaseAuth.instance.currentUser!.uid,
-                                  )
-                                  ? Icons.favorite
-                                  : Icons.favorite_border,
-                              color:
-                                  post.likedBy.contains(
-                                    FirebaseAuth.instance.currentUser!.uid,
-                                  )
-                                  ? Colors.red
-                                  : null,
+                            child: IconButton(
+                              onPressed: () async {
+                                await PostServices.likePost(post.postId);
+                              },
+                              icon: Icon(
+                                post.likedBy.contains(
+                                      FirebaseAuth.instance.currentUser!.uid,
+                                    )
+                                    ? Icons.favorite
+                                    : Icons.favorite_border,
+                                color:
+                                    post.likedBy.contains(
+                                      FirebaseAuth.instance.currentUser!.uid,
+                                    )
+                                    ? Colors.red
+                                    : null,
+                              ),
                             ),
                           ),
 
