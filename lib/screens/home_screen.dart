@@ -74,6 +74,12 @@ class HomeScreen extends StatelessWidget {
 
               return Card(
                 margin: const EdgeInsets.only(bottom: 16),
+                shape: RoundedRectangleBorder(
+                  side: isMyPost
+                      ? const BorderSide(color: Colors.blue, width: 2)
+                      : BorderSide.none,
+                  borderRadius: BorderRadius.circular(12),
+                ),
                 child: Padding(
                   padding: const EdgeInsets.all(16),
                   child: Column(
@@ -134,12 +140,13 @@ class HomeScreen extends StatelessWidget {
 
                               Expanded(
                                 child: Text(
-                                  post.username,
+                                  isMyPost
+                                      ? '${post.username} (You)'
+                                      : post.username,
                                   style: const TextStyle(
                                     fontSize: 17,
                                     fontWeight: FontWeight.bold,
                                   ),
-                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
 
