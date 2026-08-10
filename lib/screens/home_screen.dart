@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sprints_firstapp/screens/user_profile_screen.dart';
+import 'package:sprints_firstapp/screens/create_post_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -25,6 +26,7 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
+
       body: const Center(
         child: Text(
           'Welcome to ConnectHub!',
@@ -33,6 +35,18 @@ class HomeScreen extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
+      ),
+
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => const CreatePostScreen(),
+            ),
+          );
+        },
+        child: const Icon(Icons.post_add),
       ),
     );
   }

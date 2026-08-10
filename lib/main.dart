@@ -5,6 +5,7 @@ import 'package:sprints_firstapp/screens/welcome_screen.dart';
 import 'package:sprints_firstapp/theme/app_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:sprints_firstapp/cubit/post_cubit/post_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,13 +16,21 @@ void main() async {
 
   runApp(const MyApp());
 }
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AuthCubit(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => AuthCubit(),
+        ),
+        BlocProvider(
+          create: (context) => PostCubit(),
+        ),
+      ],
       child: MaterialApp(
         theme: AppTheme.darkTheme,
         title: 'Flutter Demo',
