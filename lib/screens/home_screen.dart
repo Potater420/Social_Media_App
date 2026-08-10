@@ -5,6 +5,7 @@ import 'package:sprints_firstapp/models/post_model.dart';
 import 'package:sprints_firstapp/services/post_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:sprints_firstapp/widgets/comments_bottom_sheet.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -194,8 +195,24 @@ class HomeScreen extends StatelessWidget {
 
                           const SizedBox(width: 20),
 
-                          const Icon(Icons.comment_outlined),
-                          const SizedBox(width: 5),
+                          IconButton(
+                            onPressed: () {
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                useSafeArea: true,
+                                builder: (context) {
+                                  return CommentsBottomSheet(
+                                    postId: post.postId,
+                                  );
+                                },
+                              );
+                            },
+                            icon: const Icon(
+                              Icons.comment_outlined,
+                            ),
+                          ),
+
                           Text('${post.commentsCount}'),
                         ],
                       ),
