@@ -52,12 +52,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAZcnCbExQJCVAzKc2rbuPUwpvGImph-nQ',
-    appId: '1:217363131757:android:84c3eb17cec86295f43e64',
+    appId: '1:217363131757:android:b7bde9a1972396aaf43e64',
     messagingSenderId: '217363131757',
     projectId: 'social-media-app-43701',
     storageBucket: 'social-media-app-43701.firebasestorage.app',
   );
-
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyCc0_dEBKfz4P42ogRP-WmTgb_cO_pNIUY',
     appId: '1:217363131757:ios:21d07b7af714f125f43e64',
@@ -66,7 +65,6 @@ class DefaultFirebaseOptions {
     storageBucket: 'social-media-app-43701.firebasestorage.app',
     iosBundleId: 'com.example.sprintsFirstapp',
   );
-
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyCc0_dEBKfz4P42ogRP-WmTgb_cO_pNIUY',
     appId: '1:217363131757:ios:21d07b7af714f125f43e64',

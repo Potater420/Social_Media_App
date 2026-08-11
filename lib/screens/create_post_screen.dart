@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sprints_firstapp/cubit/post_cubit/post_cubit.dart';
-import 'package:sprints_firstapp/cubit/post_cubit/post_state.dart';
+import 'package:social_media_app/cubit/post_cubit/post_cubit.dart';
+import 'package:social_media_app/cubit/post_cubit/post_state.dart';
+
 
 
 class CreatePostScreen extends StatefulWidget {

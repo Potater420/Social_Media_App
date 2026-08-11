@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:sprints_firstapp/screens/home_screen.dart';
-import 'package:sprints_firstapp/screens/loading_screen.dart';
-import 'package:sprints_firstapp/screens/sign_up_screen.dart';
-import 'package:sprints_firstapp/widgets/custom_button.dart';
+import 'package:social_media_app/screens/home_screen.dart';
+import 'package:social_media_app/screens/loading_screen.dart';
+import 'package:social_media_app/screens/sign_up_screen.dart';
+import 'package:social_media_app/widgets/custom_button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sprints_firstapp/cubit/auth_cubit/auth_cubit.dart';
-import 'package:sprints_firstapp/cubit/auth_cubit/auth_state.dart';
+import 'package:social_media_app/cubit/auth_cubit/auth_cubit.dart';
+import 'package:social_media_app/cubit/auth_cubit/auth_state.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});

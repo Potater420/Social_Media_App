@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
-import 'package:sprints_firstapp/cubit/post_cubit/post_state.dart';
-import 'package:sprints_firstapp/services/post_services.dart';
-import 'package:sprints_firstapp/services/image_services.dart';
+import 'package:social_media_app/cubit/post_cubit/post_state.dart';
+import 'package:social_media_app/services/post_services.dart';
+import 'package:social_media_app/services/image_services.dart';
 
 class PostCubit extends Cubit<PostState> {
   PostCubit() : super(PostInitial());

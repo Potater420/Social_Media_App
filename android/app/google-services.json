@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:217363131757:android:84c3eb17cec86295f43e64",
+        "mobilesdk_app_id": "1:217363131757:android:b7bde9a1972396aaf43e64",
         "android_client_info": {
-          "package_name": "com.example.sprints_firstapp"
+          "package_name": "com.example.social_media_app"
         }
       },
       "oauth_client": [],

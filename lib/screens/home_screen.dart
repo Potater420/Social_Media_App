@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:sprints_firstapp/screens/user_profile_screen.dart';
-import 'package:sprints_firstapp/screens/create_post_screen.dart';
-import 'package:sprints_firstapp/models/post_model.dart';
-import 'package:sprints_firstapp/services/post_services.dart';
+import 'package:social_media_app/screens/user_profile_screen.dart';
+import 'package:social_media_app/screens/create_post_screen.dart';
+import 'package:social_media_app/models/post_model.dart';
+import 'package:social_media_app/services/post_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:sprints_firstapp/widgets/comments_bottom_sheet.dart';
-import 'package:sprints_firstapp/widgets/liked_by_bottom_sheet.dart';
-import 'package:sprints_firstapp/screens/edit_post_screen.dart';
+import 'package:social_media_app/widgets/comments_bottom_sheet.dart';
+import 'package:social_media_app/widgets/liked_by_bottom_sheet.dart';
+import 'package:social_media_app/screens/edit_post_screen.dart';
+import 'package:social_media_app/screens/post_details_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -72,187 +73,203 @@ class HomeScreen extends StatelessWidget {
               final isMyPost =
                   post.userId == FirebaseAuth.instance.currentUser!.uid;
 
-              return Card(
-                margin: const EdgeInsets.only(bottom: 16),
-                shape: RoundedRectangleBorder(
-                  side: isMyPost
-                      ? const BorderSide(color: Colors.blue, width: 2)
-                      : BorderSide.none,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // ---------------- User Info ----------------
-                      StreamBuilder<DocumentSnapshot>(
-                        stream: FirebaseFirestore.instance
-                            .collection('users')
-                            .doc(post.userId)
-                            .snapshots(),
-                        builder: (context, userSnapshot) {
-                          if (!userSnapshot.hasData ||
-                              !userSnapshot.data!.exists) {
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => PostDetailsScreen(
+                        post: post,
+                      ),
+                    ),
+                  );
+                },
+                child: Card(
+                  margin: const EdgeInsets.only(bottom: 16),
+                  shape: RoundedRectangleBorder(
+                    side: isMyPost
+                        ? const BorderSide(color: Colors.blue, width: 2)
+                        : BorderSide.none,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // ---------------- User Info ----------------
+                        StreamBuilder<DocumentSnapshot>(
+                          stream: FirebaseFirestore.instance
+                              .collection('users')
+                              .doc(post.userId)
+                              .snapshots(),
+                          builder: (context, userSnapshot) {
+                            if (!userSnapshot.hasData ||
+                                !userSnapshot.data!.exists) {
+                              return Row(
+                                children: [
+                                  const CircleAvatar(
+                                    radius: 22,
+                                    child: Icon(Icons.person),
+                                  ),
+
+                                  const SizedBox(width: 12),
+
+                                  Expanded(
+                                    child: Text(
+                                      post.username,
+                                      style: const TextStyle(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+
+                                  if (isMyPost) _postMenu(context, post),
+                                ],
+                              );
+                            }
+
+                            final userData =
+                                userSnapshot.data!.data()
+                                    as Map<String, dynamic>;
+
+                            final profileImage = userData['profileImage'] ?? '';
+
                             return Row(
                               children: [
-                                const CircleAvatar(
+                                CircleAvatar(
                                   radius: 22,
-                                  child: Icon(Icons.person),
+                                  backgroundImage: profileImage.isNotEmpty
+                                      ? NetworkImage(profileImage)
+                                      : null,
+                                  child: profileImage.isEmpty
+                                      ? const Icon(Icons.person)
+                                      : null,
                                 ),
 
                                 const SizedBox(width: 12),
 
                                 Expanded(
                                   child: Text(
-                                    post.username,
+                                    isMyPost
+                                        ? '${post.username} (You)'
+                                        : post.username,
                                     style: const TextStyle(
                                       fontSize: 17,
                                       fontWeight: FontWeight.bold,
                                     ),
-                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
 
                                 if (isMyPost) _postMenu(context, post),
                               ],
                             );
-                          }
-
-                          final userData =
-                              userSnapshot.data!.data() as Map<String, dynamic>;
-
-                          final profileImage = userData['profileImage'] ?? '';
-
-                          return Row(
-                            children: [
-                              CircleAvatar(
-                                radius: 22,
-                                backgroundImage: profileImage.isNotEmpty
-                                    ? NetworkImage(profileImage)
-                                    : null,
-                                child: profileImage.isEmpty
-                                    ? const Icon(Icons.person)
-                                    : null,
-                              ),
-
-                              const SizedBox(width: 12),
-
-                              Expanded(
-                                child: Text(
-                                  isMyPost
-                                      ? '${post.username} (You)'
-                                      : post.username,
-                                  style: const TextStyle(
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-
-                              if (isMyPost) _postMenu(context, post),
-                            ],
-                          );
-                        },
-                      ),
-
-                      const SizedBox(height: 18),
-
-                      // ---------------- Post Title ----------------
-                      Text(
-                        post.title,
-                        style: const TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
+                          },
                         ),
-                      ),
 
-                      const SizedBox(height: 8),
+                        const SizedBox(height: 18),
 
-                      // ---------------- Description ----------------
-                      Text(
-                        post.description,
-                        style: const TextStyle(
-                          fontSize: 16,
+                        // ---------------- Post Title ----------------
+                        Text(
+                          post.title,
+                          style: const TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
 
-                      // ---------------- Image ----------------
-                      if (post.imageUrl.isNotEmpty) ...[
+                        const SizedBox(height: 8),
+
+                        // ---------------- Description ----------------
+                        // ---------------- Description ----------------
+                        Text(
+                          post.description,
+                          style: const TextStyle(
+                            fontSize: 16,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+
+                        // ---------------- Image ----------------
+                        if (post.imageUrl.isNotEmpty) ...[
+                          const SizedBox(height: 12),
+
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
+                            child: Image.network(
+                              post.imageUrl,
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ],
+
                         const SizedBox(height: 12),
 
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(12),
-                          child: Image.network(
-                            post.imageUrl,
-                            width: double.infinity,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ],
-
-                      const SizedBox(height: 12),
-
-                      // ---------------- Like / Comments ----------------
-                      Row(
-                        children: [
-                          GestureDetector(
-                            onLongPress: () {
-                              showModalBottomSheet(
-                                context: context,
-                                builder: (_) => LikedByBottomSheet(
-                                  userIds: post.likedBy,
-                                ),
-                              );
-                            },
-                            child: IconButton(
-                              onPressed: () async {
-                                await PostServices.likePost(
-                                  post.postId,
+                        // ---------------- Like / Comments ----------------
+                        Row(
+                          children: [
+                            GestureDetector(
+                              onLongPress: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  builder: (_) => LikedByBottomSheet(
+                                    userIds: post.likedBy,
+                                  ),
                                 );
                               },
-                              icon: Icon(
-                                post.likedBy.contains(
-                                      FirebaseAuth.instance.currentUser!.uid,
-                                    )
-                                    ? Icons.favorite
-                                    : Icons.favorite_border,
-                                color:
-                                    post.likedBy.contains(
-                                      FirebaseAuth.instance.currentUser!.uid,
-                                    )
-                                    ? Colors.red
-                                    : null,
-                              ),
-                            ),
-                          ),
-
-                          Text('${post.likesCount}'),
-
-                          const SizedBox(width: 20),
-
-                          IconButton(
-                            onPressed: () {
-                              showModalBottomSheet(
-                                context: context,
-                                isScrollControlled: true,
-                                useSafeArea: true,
-                                builder: (context) {
-                                  return CommentsBottomSheet(
-                                    postId: post.postId,
+                              child: IconButton(
+                                onPressed: () async {
+                                  await PostServices.likePost(
+                                    post.postId,
                                   );
                                 },
-                              );
-                            },
-                            icon: const Icon(
-                              Icons.comment_outlined,
+                                icon: Icon(
+                                  post.likedBy.contains(
+                                        FirebaseAuth.instance.currentUser!.uid,
+                                      )
+                                      ? Icons.favorite
+                                      : Icons.favorite_border,
+                                  color:
+                                      post.likedBy.contains(
+                                        FirebaseAuth.instance.currentUser!.uid,
+                                      )
+                                      ? Colors.red
+                                      : null,
+                                ),
+                              ),
                             ),
-                          ),
 
-                          Text('${post.commentsCount}'),
-                        ],
-                      ),
-                    ],
+                            Text('${post.likesCount}'),
+
+                            const SizedBox(width: 20),
+
+                            IconButton(
+                              onPressed: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  useSafeArea: true,
+                                  builder: (context) {
+                                    return CommentsBottomSheet(
+                                      postId: post.postId,
+                                    );
+                                  },
+                                );
+                              },
+                              icon: const Icon(
+                                Icons.comment_outlined,
+                              ),
+                            ),
+
+                            Text('${post.commentsCount}'),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               );

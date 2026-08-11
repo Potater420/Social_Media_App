@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:sprints_firstapp/models/post_model.dart';
-import 'package:sprints_firstapp/models/comment_model.dart';
+import 'package:social_media_app/models/post_model.dart';
+import 'package:social_media_app/models/comment_model.dart';
 
 class PostServices {
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -200,20 +200,22 @@ class PostServices {
   }
   // ---------------- Edit Post ----------------
   static Future<String> updatePost({
-    required String postId,
-    required String title,
-    required String description,
-  }) async {
-    try {
-      await _firestore.collection('posts').doc(postId).update({
-        'title': title,
-        'description': description,
-      });
+  required String postId,
+  required String title,
+  required String description,
+  required String imageUrl,
+}) async {
+  try {
+    await _firestore.collection('posts').doc(postId).update({
+      'title': title,
+      'description': description,
+      'imageUrl': imageUrl,
+    });
 
-      return 'success';
-    } catch (e) {
-      print('UPDATE POST ERROR: $e');
-      return 'Unexpected error';
-    }
+    return 'success';
+  } catch (e) {
+    print('UPDATE POST ERROR: $e');
+    return 'Unexpected error';
   }
+}
 }

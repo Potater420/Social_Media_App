@@ -1,4 +1,4 @@
-package com.example.sprints_firstapp
+package com.example.social_media_app
 
 import io.flutter.embedding.android.FlutterActivity
 

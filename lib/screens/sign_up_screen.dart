@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:sprints_firstapp/screens/log_in_screen.dart';
-import 'package:sprints_firstapp/widgets/custom_button.dart';
+import 'package:social_media_app/screens/log_in_screen.dart';
+import 'package:social_media_app/widgets/custom_button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sprints_firstapp/cubit/auth_cubit/auth_cubit.dart';
-import 'package:sprints_firstapp/cubit/auth_cubit/auth_state.dart';
-import 'package:sprints_firstapp/screens/loading_screen.dart';
-import 'package:sprints_firstapp/screens/home_screen.dart';
+import 'package:social_media_app/cubit/auth_cubit/auth_cubit.dart';
+import 'package:social_media_app/cubit/auth_cubit/auth_state.dart';
+import 'package:social_media_app/screens/loading_screen.dart';
+import 'package:social_media_app/screens/home_screen.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sprints_firstapp/cubit/auth_cubit/auth_cubit.dart';
-import 'package:sprints_firstapp/screens/welcome_screen.dart';
-import 'package:sprints_firstapp/theme/app_theme.dart';
+import 'package:social_media_app/cubit/auth_cubit/auth_cubit.dart';
+import 'package:social_media_app/screens/welcome_screen.dart';
+import 'package:social_media_app/theme/app_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'package:sprints_firstapp/cubit/post_cubit/post_cubit.dart';
+import 'package:social_media_app/cubit/post_cubit/post_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

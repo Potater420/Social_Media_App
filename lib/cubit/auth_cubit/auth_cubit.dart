@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
-import 'package:sprints_firstapp/cubit/auth_cubit/auth_state.dart';
-import 'package:sprints_firstapp/services/auth_services.dart';
-import 'package:sprints_firstapp/services/image_services.dart';
+import 'package:social_media_app/cubit/auth_cubit/auth_state.dart';
+import 'package:social_media_app/services/auth_services.dart';
+import 'package:social_media_app/services/image_services.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit() : super(AuthInitial());

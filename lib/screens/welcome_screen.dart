@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sprints_firstapp/screens/log_in_screen.dart';
-import 'package:sprints_firstapp/screens/sign_up_screen.dart';
-import 'package:sprints_firstapp/theme/app_colors.dart';
-import 'package:sprints_firstapp/widgets/custom_button.dart';
+import 'package:social_media_app/screens/log_in_screen.dart';
+import 'package:social_media_app/screens/sign_up_screen.dart';
+import 'package:social_media_app/theme/app_colors.dart';
+import 'package:social_media_app/widgets/custom_button.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});

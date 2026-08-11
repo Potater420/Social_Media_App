@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:sprints_firstapp/screens/welcome_screen.dart';
-import 'package:sprints_firstapp/services/image_services.dart';
+import 'package:social_media_app/screens/welcome_screen.dart';
+import 'package:social_media_app/services/image_services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sprints_firstapp/cubit/auth_cubit/auth_cubit.dart';
-import 'package:sprints_firstapp/cubit/auth_cubit/auth_state.dart';
+import 'package:social_media_app/cubit/auth_cubit/auth_cubit.dart';
+import 'package:social_media_app/cubit/auth_cubit/auth_state.dart';
 
 
 class UserProfileScreen extends StatefulWidget {

@@ -11,9 +11,7 @@ class ImageServices {
     try {
       final formData = FormData.fromMap({
         'key': apiKey,
-        'image': await MultipartFile.fromFile(
-          image.path,
-        ),
+        'image': await MultipartFile.fromFile(image.path),
       });
 
       final response = await _dio.post(
@@ -23,11 +21,10 @@ class ImageServices {
 
       if (response.statusCode == 200) {
         return response.data['data']['url'];
-      } else {
-        return 'Upload failed';
       }
+      return 'Upload failed';
     } catch (e) {
-      return 'Unexpected error';
+      return 'Upload failed';
     }
   }
 }

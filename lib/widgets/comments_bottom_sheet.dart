@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:sprints_firstapp/models/comment_model.dart';
-import 'package:sprints_firstapp/services/post_services.dart';
+import 'package:social_media_app/models/comment_model.dart';
+import 'package:social_media_app/services/post_services.dart';
 
 class CommentsBottomSheet extends StatefulWidget {
   final String postId;
