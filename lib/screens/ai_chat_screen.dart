@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/services.dart';
 
 import 'package:social_media_app/cubit/chat_cubit/chat_cubit.dart';
 import 'package:social_media_app/cubit/chat_cubit/chat_state.dart';
@@ -167,12 +168,48 @@ class _AiChatScreenState extends State<AiChatScreen> {
                               ),
                             ),
 
-                            child: Text(
-                              message.message,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                              ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Flexible(
+                                  child: Text(
+                                    message.message,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+
+                                if (!message.isUser) ...[
+                                  const SizedBox(width: 8),
+
+                                  GestureDetector(
+                                    onTap: () {
+                                      Clipboard.setData(
+                                        ClipboardData(
+                                          text: message.message,
+                                        ),
+                                      );
+
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
+                                        const SnackBar(
+                                          content: Text('Copied!'),
+                                          duration: Duration(seconds: 1),
+                                        ),
+                                      );
+                                    },
+
+                                    child: const Icon(
+                                      Icons.copy,
+                                      size: 18,
+                                      color: Colors.white70,
+                                    ),
+                                  ),
+                                ],
+                              ],
                             ),
                           ),
                         );

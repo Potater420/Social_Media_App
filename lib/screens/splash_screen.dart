@@ -1,8 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:social_media_app/screens/home_screen.dart';
 import 'package:social_media_app/screens/welcome_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -19,30 +17,19 @@ class _SplashScreenState extends State<SplashScreen> {
 
     Timer(
       const Duration(seconds: 2),
-      checkUser,
+      goToWelcome,
     );
   }
 
-  void checkUser() {
-    final user = FirebaseAuth.instance.currentUser;
-
+  void goToWelcome() {
     if (!mounted) return;
 
-    if (user != null) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (_) => const HomeScreen(),
-        ),
-      );
-    } else {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (_) => const WelcomePage(),
-        ),
-      );
-    }
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (_) => const WelcomePage(),
+      ),
+    );
   }
 
   @override
