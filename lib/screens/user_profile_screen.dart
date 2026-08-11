@@ -10,6 +10,7 @@ import 'package:social_media_app/screens/welcome_screen.dart';
 import 'package:social_media_app/services/image_services.dart';
 import 'package:social_media_app/cubit/auth_cubit/auth_cubit.dart';
 import 'package:social_media_app/cubit/auth_cubit/auth_state.dart';
+import 'package:social_media_app/widgets/my_posts_widget.dart';
 
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({super.key});
@@ -309,6 +310,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   const Divider(),
 
                   const SizedBox(height: 10),
+
+                  //-----------------My Posts-------------------
+
+                  MyPostsWidget(uid: uid),
 
                   // ---------------- Logout ----------------
 

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_media_app/cubit/auth_cubit/auth_cubit.dart';
-import 'package:social_media_app/screens/welcome_screen.dart';
+import 'package:social_media_app/cubit/post_cubit/post_cubit.dart';
+import 'package:social_media_app/screens/splash_screen.dart';
 import 'package:social_media_app/theme/app_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'package:social_media_app/cubit/post_cubit/post_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,11 +31,14 @@ class MyApp extends StatelessWidget {
           create: (context) => PostCubit(),
         ),
       ],
+
       child: MaterialApp(
         theme: AppTheme.darkTheme,
-        title: 'Flutter Demo',
+        title: 'ConnectHub',
         debugShowCheckedModeBanner: false,
-        home: const WelcomePage(),
+
+        // Start with Splash Screen
+        home: const SplashScreen(),
       ),
     );
   }
