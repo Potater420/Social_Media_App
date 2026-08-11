@@ -83,19 +83,68 @@ class AuthServices {
   //----------------------------------------------Delete user------------------------------------------------------
 
   static Future deleteUser() async {
-    try {
-      final User? currentUser = _firebaseAuth.currentUser;
+  try {
+    final User? currentUser = _firebaseAuth.currentUser;
 
-      if (currentUser != null) {
-        await currentUser.delete();
-        return 'success';
-      } else {
-        return 'There is no user to delete.';
-      }
-    } catch (e) {
-      return 'unexpected error';
+    if (currentUser == null) {
+      return 'There is no user to delete.';
     }
+
+    final uid = currentUser.uid;
+    final firestore = FirebaseFirestore.instance;
+
+    // Delete user's posts
+    final myPosts = await firestore
+        .collection('posts')
+        .where('userId', isEqualTo: uid)
+        .get();
+
+    for (final post in myPosts.docs) {
+      final comments = await post.reference
+          .collection('comments')
+          .get();
+
+      for (final comment in comments.docs) {
+        await comment.reference.delete();
+      }
+
+      await post.reference.delete();
+    }
+
+    // Remove user's comments from other posts
+    final allPosts = await firestore.collection('posts').get();
+
+    for (final post in allPosts.docs) {
+      final comments = await post.reference
+          .collection('comments')
+          .where('userId', isEqualTo: uid)
+          .get();
+
+      for (final comment in comments.docs) {
+        await comment.reference.delete();
+      }
+
+      // Remove user's likes
+      await post.reference.update({
+        'likedBy': FieldValue.arrayRemove([uid]),
+        'likesCount': FieldValue.increment(
+          post.data()['likedBy']?.contains(uid) == true ? -1 : 0,
+        ),
+      });
+    }
+
+    // Delete user document
+    await firestore.collection('users').doc(uid).delete();
+
+    // Delete Firebase Authentication account
+    await currentUser.delete();
+
+    return 'success';
+  } catch (e) {
+    print('DELETE USER ERROR: $e');
+    return 'Unexpected error';
   }
+}
 
   //----------------------------------------------Reset Password------------------------------------------------------
 
