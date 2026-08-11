@@ -9,6 +9,7 @@ import 'package:social_media_app/widgets/comments_bottom_sheet.dart';
 import 'package:social_media_app/widgets/liked_by_bottom_sheet.dart';
 import 'package:social_media_app/screens/edit_post_screen.dart';
 import 'package:social_media_app/screens/post_details_screen.dart';
+import 'package:social_media_app/screens/ai_chat_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -21,6 +22,20 @@ class HomeScreen extends StatelessWidget {
         title: const Text('ConnectHub'),
         centerTitle: true,
         actions: [
+          // AI Chat
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const AiChatScreen(),
+                ),
+              );
+            },
+            icon: const Icon(Icons.smart_toy),
+          ),
+
+          // Profile
           IconButton(
             onPressed: () {
               Navigator.push(
@@ -44,15 +59,15 @@ class HomeScreen extends StatelessWidget {
                 child: CircularProgressIndicator(),
               );
             }
-        
+
             if (snapshot.hasError) {
               return const Center(
                 child: Text('Something went wrong.'),
               );
             }
-        
+
             final posts = snapshot.data ?? [];
-        
+
             if (posts.isEmpty) {
               return const Center(
                 child: Text(
@@ -64,16 +79,16 @@ class HomeScreen extends StatelessWidget {
                 ),
               );
             }
-        
+
             return ListView.builder(
               padding: const EdgeInsets.all(16),
               itemCount: posts.length,
               itemBuilder: (context, index) {
                 final post = posts[index];
-        
+
                 final isMyPost =
                     post.userId == FirebaseAuth.instance.currentUser!.uid;
-        
+
                 return GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -113,9 +128,9 @@ class HomeScreen extends StatelessWidget {
                                       radius: 22,
                                       child: Icon(Icons.person),
                                     ),
-        
+
                                     const SizedBox(width: 12),
-        
+
                                     Expanded(
                                       child: Text(
                                         post.username,
@@ -126,18 +141,19 @@ class HomeScreen extends StatelessWidget {
                                         overflow: TextOverflow.ellipsis,
                                       ),
                                     ),
-        
+
                                     if (isMyPost) _postMenu(context, post),
                                   ],
                                 );
                               }
-        
+
                               final userData =
                                   userSnapshot.data!.data()
                                       as Map<String, dynamic>;
-        
-                              final profileImage = userData['profileImage'] ?? '';
-        
+
+                              final profileImage =
+                                  userData['profileImage'] ?? '';
+
                               return Row(
                                 children: [
                                   CircleAvatar(
@@ -149,9 +165,9 @@ class HomeScreen extends StatelessWidget {
                                         ? const Icon(Icons.person)
                                         : null,
                                   ),
-        
+
                                   const SizedBox(width: 12),
-        
+
                                   Expanded(
                                     child: Text(
                                       isMyPost
@@ -163,15 +179,15 @@ class HomeScreen extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-        
+
                                   if (isMyPost) _postMenu(context, post),
                                 ],
                               );
                             },
                           ),
-        
+
                           const SizedBox(height: 18),
-        
+
                           // ---------------- Post Title ----------------
                           Text(
                             post.title,
@@ -180,9 +196,9 @@ class HomeScreen extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-        
+
                           const SizedBox(height: 8),
-        
+
                           // ---------------- Description ----------------
                           // ---------------- Description ----------------
                           Text(
@@ -193,11 +209,11 @@ class HomeScreen extends StatelessWidget {
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
-        
+
                           // ---------------- Image ----------------
                           if (post.imageUrl.isNotEmpty) ...[
                             const SizedBox(height: 12),
-        
+
                             ClipRRect(
                               borderRadius: BorderRadius.circular(12),
                               child: Image.network(
@@ -207,9 +223,9 @@ class HomeScreen extends StatelessWidget {
                               ),
                             ),
                           ],
-        
+
                           const SizedBox(height: 12),
-        
+
                           // ---------------- Like / Comments ----------------
                           Row(
                             children: [
@@ -230,24 +246,30 @@ class HomeScreen extends StatelessWidget {
                                   },
                                   icon: Icon(
                                     post.likedBy.contains(
-                                          FirebaseAuth.instance.currentUser!.uid,
+                                          FirebaseAuth
+                                              .instance
+                                              .currentUser!
+                                              .uid,
                                         )
                                         ? Icons.favorite
                                         : Icons.favorite_border,
                                     color:
                                         post.likedBy.contains(
-                                          FirebaseAuth.instance.currentUser!.uid,
+                                          FirebaseAuth
+                                              .instance
+                                              .currentUser!
+                                              .uid,
                                         )
                                         ? Colors.red
                                         : null,
                                   ),
                                 ),
                               ),
-        
+
                               Text('${post.likesCount}'),
-        
+
                               const SizedBox(width: 20),
-        
+
                               IconButton(
                                 onPressed: () {
                                   showModalBottomSheet(
@@ -265,7 +287,7 @@ class HomeScreen extends StatelessWidget {
                                   Icons.comment_outlined,
                                 ),
                               ),
-        
+
                               Text('${post.commentsCount}'),
                             ],
                           ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_media_app/cubit/auth_cubit/auth_cubit.dart';
+import 'package:social_media_app/cubit/chat_cubit/chat_cubit.dart';
 import 'package:social_media_app/cubit/post_cubit/post_cubit.dart';
 import 'package:social_media_app/screens/splash_screen.dart';
 import 'package:social_media_app/theme/app_theme.dart';
@@ -29,6 +30,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => PostCubit(),
+        ),
+        BlocProvider<ChatCubit>(
+          create: (context) => ChatCubit(),
         ),
       ],
 
